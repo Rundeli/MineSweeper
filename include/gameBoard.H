@@ -86,15 +86,29 @@ class GameBoard
         return m_mineNum;
     }
 
+    void PrintBoard() const
+    {
+        for(int i=0;i<this->Getx();i++){
+            std::cout<<std::endl;
+            std::cout<<std::endl;
+            for(int j=0;j<this->Gety();j++){
+                std::cout<<this->gameBoard_[i][j]<<"   ";
+            }
+        }
+        std::cout<<std::endl;
+    }
+
+    char** getBoard() const
+    {
+        return this->gameBoard_;
+    }
+
     virtual void setValue(const int& row,const int& col,const GameBoard& gb){}; //play on maskBoard
     
     virtual void setMine(){};  //set mine for backgoundBoard
 
-    virtual void PrintBoard(){};
-
     virtual ~GameBoard()=default;
   
-
     GameBoard& operator=(const GameBoard&) = delete;
 };
 

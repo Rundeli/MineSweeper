@@ -28,8 +28,8 @@ public:
             m_mine_x =(rand()%(Getx()));
             m_mine_y =(rand()%(Gety()));
 
-            if(!(gameBoard_[m_mine_x][m_mine_y]=='x'))
-                gameBoard_[m_mine_x][m_mine_y]='x';
+            if(!(this->getBoard()[m_mine_x][m_mine_y]=='x'))
+                this->getBoard()[m_mine_x][m_mine_y]='x';
             else
                 i-=1;
         }
@@ -39,7 +39,7 @@ public:
     {
         for(int row=0;row<this->Getx();row++)
         {
-            delete[] this->gameBoard_[row];
+            delete[] this->getBoard()[row];
         }
     }
 };

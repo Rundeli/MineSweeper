@@ -21,53 +21,37 @@ private:
 
 public:
 
-    bool isOver=1;
+    bool isOver=0;
     
     maskBoard(std::string& diffculty)
     :GameBoard(diffculty)
-    {};
+    {boolInit();}
 
     void setValue(const int& row,const int& col,const backGoundBoard& bgb)
     {
         m_play_x=row-1;
         m_play_y=col-1;
 
-        boolInit();
-        if(bgb.getValue(m_play_x,m_play_y)=='o')
-        {
-            if(!isPlayed[m_play_x][m_play_y])
-            {
-                this->gameBoard_[m_play_x][m_play_y]=playSign;
-                this->isPlayed[m_play_x][m_play_y]=1;
+        this->getBoard()[m_play_x][m_play_y]=playSign;
+        this->isPlayed[m_play_x][m_play_y]=1;
 
-                bound bound_outer = setBound(m_play_x,m_play_y);
+        bound bound_outer = setBound(m_play_x,m_play_y);
 
-                for(int r=bound_outer.row_lower;r<bound_outer.row_higher;r++){
-                    for(int c=bound_outer.col_lower;c<bound_outer.col_higher;c++){
-                        if( ((r==0)&&(c==0)) || isPlayed[m_play_x+r][m_play_y+c]){continue;}
-                        else{
-                            this->gameBoard_[m_play_x+r][m_play_y+c]='0' + surroundingMine(m_play_x+r,m_play_y+c,bgb);
+        for(int r=bound_outer.row_lower;r<bound_outer.row_higher;r++){
+            for(int c=bound_outer.col_lower;c<bound_outer.col_higher;c++){
+                if( ((r==0)&&(c==0)) || isPlayed[m_play_x+r][m_play_y+c]){continue;}
+                    else{
+                            this->getBoard()[m_play_x+r][m_play_y+c]='0' + surroundingMine(m_play_x+r,m_play_y+c,bgb);
                         }
                     }
-                }
-            }
-            else
-            {
-                std::cout<<"This place is already played!"<<std::endl;
-            }
-        }
-        else
-        {
-            endGame(bgb);
-        }
+                }                 
     }
     
     void endGame(const backGoundBoard& bgb)
     {
-        isOver=0;
-        this->gameBoard_=bgb.gameBoard_;
+        isOver=1;
         std::cout<<"Game Over!"<<std::endl;
-        this->PrintBoard();
+        bgb.PrintBoard();
     }
 
     void boolInit()
@@ -91,7 +75,7 @@ public:
 
         for(m=bound_inner.row_lower;m<bound_inner.row_higher;m++){
             for(n=bound_inner.col_lower;n<bound_inner.col_higher;n++){
-                    if(bgb.gameBoard_[x+m][y+n]=='x'){
+                    if(bgb.getBoard()[x+m][y+n]=='x'){
                     counter+=1;
                     }
                     else 
@@ -100,6 +84,25 @@ public:
         }
 
         return counter;
+    }
+
+    void playDecide(const int& row,const int& col,const backGoundBoard& bgb)
+    {
+        if(this->isPlayed[row-1][col-1])
+        {
+            std::cout<<"This place is already played,try a differant place."<<std::endl;
+        }
+        else
+        {
+            if(bgb.getBoard()[row-1][col-1]=='o')
+            {
+                this->setValue(row,col,bgb);
+            }
+            else if(bgb.getBoard()[row-1][col-1]=='x')
+            {
+                endGame(bgb);
+            }
+        }
     }
 
     bound setBound(const int& x,const int& y)
@@ -115,22 +118,12 @@ public:
         return b;
     }
 
-    void PrintBoard()
-    {
-        for(int row=0;row<this->Getx();row++){
-            std::cout<<std::endl;
-            for(int col=0;col<this->Gety();col++)
-                std::cout<<this->gameBoard_[row][col]<<' ';
-        }
-        std::cout<<std::endl;
-    }
-
     ~maskBoard()
     {
         for(int row=0;row<this->Getx();row++)
         {
             delete[] isPlayed[row];
-            delete[] this->gameBoard_[row];
+            delete[] this->getBoard()[row];
         }
     }
 };
