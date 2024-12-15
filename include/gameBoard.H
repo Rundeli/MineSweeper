@@ -12,9 +12,9 @@ class GameBoard
     int m_size_x,m_size_y,m_mineNum;
     std::string m_diffculty;
 
-    public:
-
     char** gameBoard_;
+
+    public:
 
     GameBoard(const std::string& diffculty)
     :m_diffculty(diffculty)
