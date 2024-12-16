@@ -15,7 +15,7 @@ private:
 public:
 
     backGoundBoard(std::string& diffculty)
-    :GameBoard(diffculty){}
+    :GameBoard(diffculty){setMine();}
 
     void setMine()
     {
@@ -28,8 +28,8 @@ public:
             m_mine_x =(rand()%(Getx()));
             m_mine_y =(rand()%(Gety()));
 
-            if(!(this->getBoard()[m_mine_x][m_mine_y]=='x'))
-                this->getBoard()[m_mine_x][m_mine_y]='x';
+            if(!(this->getBoard()[m_mine_x][m_mine_y]=='X'))
+                this->getBoard()[m_mine_x][m_mine_y]='X';
             else
                 i-=1;
         }

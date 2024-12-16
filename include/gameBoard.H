@@ -21,8 +21,7 @@ class GameBoard
     {
         setSize();
         setBoard();
-        setInitalValue(gameBoard_);
-        setMine();     
+        setInitalValue(gameBoard_);   
     }
 
     GameBoard(const GameBoard& gambo)
@@ -49,15 +48,15 @@ class GameBoard
     {
         if (m_diffculty=="EASY")
         {
-            m_size_x=10;m_size_y=10;m_mineNum=40;
+            m_size_x=10;m_size_y=10;m_mineNum=10; //10%MINE
         }
         else if(m_diffculty=="MEDIUM")
         {
-            m_size_x=15;m_size_y=15;m_mineNum=70;
+            m_size_x=15;m_size_y=15;m_mineNum=34; //15%MINE
         }
         else //m_diffculty=="HARD"
         {
-            m_size_x=20;m_size_y=20;m_mineNum=100;
+            m_size_x=20;m_size_y=20;m_mineNum=80;  //20%MINE
         }
     }
 
@@ -73,7 +72,7 @@ class GameBoard
     {
         for(int i=0;i<m_size_x;i++)
             for(int j=0;j<m_size_y;j++)
-            gmb[i][j]='o';
+            gmb[i][j]='O';
     }
 
     char getValue(int& row,int& col) const
@@ -92,7 +91,7 @@ class GameBoard
             std::cout<<std::endl;
             std::cout<<std::endl;
             for(int j=0;j<this->Gety();j++){
-                std::cout<<this->gameBoard_[i][j]<<"   ";
+                std::cout<<this->gameBoard_[i][j]<<"    ";
             }
         }
         std::cout<<std::endl;
